@@ -16,6 +16,11 @@ export class DAO {
     return this._db.prepare(SQL).all()
   }
 
+  findById(id: number): any {
+    const SQL = `SELECT * FROM ${this._table} WHERE ${this._table}.id = ${id}`
+    return this._db.prepare(SQL).get()
+  }
+
   add(obj: any) {
     const campos = Object.keys(obj)
     const SQL = `INSERT INTO ${this._table} (` +
@@ -26,4 +31,23 @@ export class DAO {
     console.log(SQL)
     this._db.prepare(SQL).run(obj)
   }
+
+  update(obj: any, id: number) {
+    const campos = Object.keys(obj)
+    const valores = Object.values(obj)
+
+    console.log(campos);
+    console.log(valores);
+
+    const SQL = `UPDATE ${this._table} SET ${campos[0]} = ?,
+                 ${campos[1]} = ? WHERE id = ?`
+    console.log(SQL)
+    this._db.prepare(SQL).run(valores[0], valores[1], id)
+  }
+
+  delById(id: number): any {
+    const SQL = `DELETE FROM ${this._table} WHERE ${this._table}.id = ${id}`
+    return this._db.prepare(SQL).run()
+  }
+
 }

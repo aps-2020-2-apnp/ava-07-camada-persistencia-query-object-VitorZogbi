@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { Usuario } from '../Model/Usuario';
 import { Command } from './Command'
+import { Usuario } from '../Model/Usuario';
 
 
 // GET /usuarios

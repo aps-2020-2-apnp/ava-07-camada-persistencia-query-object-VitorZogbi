@@ -11,7 +11,4 @@ export class UsuarioDAO extends DAO {
     const {nome, sobrenome} = usuario
     super.add({nome, sobrenome})
   }
-
-
-
 }

@@ -1,5 +1,5 @@
-import { UsuarioDAO } from '../Persistence/UsuarioDAO'
 import { Model } from './Model'
+import { UsuarioDAO } from '../Persistence/UsuarioDAO'
 
 const dao = new UsuarioDAO()
 
@@ -38,5 +38,9 @@ export class Usuario extends Model {
   // Active Record
   static all(): Usuario[] {
     return dao.findAll()
+  }
+
+  static findById(id: number): Usuario {
+    return dao.findById(id)
   }
 }
