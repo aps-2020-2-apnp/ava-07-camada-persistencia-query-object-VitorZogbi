@@ -108,6 +108,26 @@ export class DeletePetCommand implements Command {
   }
 }
 
+// tslint:disable-next-line: max-classes-per-file
+export class GetByName{
+
+  execute (req: IncomingMessage, resp: ServerResponse): void {
+    try {
+      if(req.url) {
+        const valorString = req.url.slice(req.url.indexOf("=") + 1, req.url.length)
+        const pet = new Pet("", 0)
+        const registro = Pet.queryByName(valorString)
+        resp.writeHead(200, { 'Content-Type': 'application/json' })
+        resp.end(JSON.stringify(registro))
+      } else {
+        console.error("Não foi informado um id");
+      }
+    } catch (error) {
+      resp.end(error)
+    }
+  }
+}
+
 export const getPetsCommand = new GetPetsCommand()
 
 export const getPetCommand = new GetPetCommand()
@@ -117,3 +137,5 @@ export const postPetCommand = new PostPetCommand()
 export const updatePetCommand = new UpdatePetCommand()
 
 export const deletePetCommand = new DeletePetCommand()
+
+export const getByName = new GetByName()

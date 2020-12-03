@@ -1,18 +1,18 @@
 import { Model } from "./Model";
 import { Usuario } from "./Usuario"
 import { PetDAO } from "../Persistence/PetDAO"
+import { Operador } from "../Persistence/QueryObject"
 
 const dao = new PetDAO()
 
 export class Pet extends Model {
 
-  dao = dao
   id?: number
   nome: string
   responsavel: number
 
   constructor(nome: string, responsavel: number, id?: number) {
-    super();
+    super(dao);
     this.id = id
     this.nome = nome
     this.responsavel = responsavel
@@ -31,4 +31,9 @@ export class Pet extends Model {
   static findById(id: number): Pet {
     return dao.findById(id)
   }
+
+  static queryByName(valor: string) {
+    return dao.queryObject("nome", Operador.igual, valor)
+  }
+
 }

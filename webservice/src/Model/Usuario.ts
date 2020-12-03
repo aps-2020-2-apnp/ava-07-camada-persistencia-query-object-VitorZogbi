@@ -5,12 +5,11 @@ const dao = new UsuarioDAO()
 
 export class Usuario extends Model {
 
-  dao = dao
   id?: number
   nome: string
   sobrenome?: string
   constructor(nome: string, sobrenome?: string, id?: number) {
-    super()
+    super(dao)
     // VALIDAR ANTES
     // if (nome.length < 2) {
     //   throw new Error(`Nome deve ter pelo menos 2 caracteres (recebido: ${nome})`)

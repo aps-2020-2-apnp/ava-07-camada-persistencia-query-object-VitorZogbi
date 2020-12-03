@@ -13,6 +13,7 @@ controller.register(Method.GET, '/pet', PetCommands.getPetCommand)
 controller.register(Method.POST, '/pet', PetCommands.postPetCommand)
 controller.register(Method.PUT, '/pet', PetCommands.updatePetCommand)
 controller.register(Method.DELETE, '/pet', PetCommands.deletePetCommand)
+controller.register(Method.GET, '/petbyname', PetCommands.getByName)
 
 const port = 9999
 const server = createServer((req, resp) => controller.handle(req, resp))

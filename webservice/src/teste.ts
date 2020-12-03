@@ -2,6 +2,7 @@ import { DAO } from './Persistence/DAO'
 import { UsuarioDAO } from './Persistence/UsuarioDAO'
 import { Usuario } from './Model/Usuario'
 import { PetDAO } from './Persistence/PetDAO'
+import { Operador } from './Persistence/QueryObject'
 
 const dao = new DAO('usuarios')
 // const rows = dao.findAll()
@@ -25,7 +26,11 @@ const petById = daoPet.findById(3)
 console.log(petById);
 
 const registros = daoPet.findAll()
-console.log(registros);
+console.log(daoPet.findAll());
+
+const registro = daoPet.queryObject("nome", Operador.like, "mia")
+console.log(registro);
+
 
 
 

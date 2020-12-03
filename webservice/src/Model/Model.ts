@@ -2,8 +2,12 @@ import { DAO } from "./../Persistence/DAO"
 
 export abstract class Model {
 
-  abstract dao: DAO
+  private dao: DAO
   private _erros: string[] = []
+
+  constructor(dao: DAO) {
+    this.dao = dao
+  }
 
   validate(): void {
     this._erros = []

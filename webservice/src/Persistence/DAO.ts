@@ -1,4 +1,5 @@
 import connect, { Database } from 'better-sqlite3'
+import { QueryObjectBuilder, Operador } from "./QueryObject"
 
 // Layer Supertype de Persistencia
 // https://martinfowler.com/eaaCatalog/layerSupertype.html
@@ -36,7 +37,7 @@ export class DAO {
     const campos = Object.keys(obj)
     const valores = Object.values(obj)
 
-    const SQL = `UPDATE ${this._table} SET ` + campos.join('= ?, ') + `=? WHERE id = ${id}`
+    const SQL = `UPDATE ${this._table} SET ${campos.join('= ?, ')} =? WHERE id = ${id}`
 
     this._db.prepare(SQL).run(...valores)
   }
@@ -44,6 +45,16 @@ export class DAO {
   remove(id: number): any {
     const SQL = `DELETE FROM ${this._table} WHERE ${this._table}.id = ${id}`
     return this._db.prepare(SQL).run()
+  }
+
+  queryObject(campo: string, operador: Operador, valor: string) {
+    const queryBuilder = new QueryObjectBuilder()
+    const query = queryBuilder.campo(campo).operador(operador).valor(valor).get()
+
+    const SQL = query.findByQuery(this._table)
+    console.log(SQL);
+
+    return this._db.prepare(SQL).get()
   }
 
 }
