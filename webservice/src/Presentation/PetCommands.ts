@@ -95,7 +95,8 @@ export class DeletePetCommand implements Command {
       if(req.url) {
         const idString = req.url.slice(req.url.indexOf("=") + 1, req.url.length)
         const id = parseInt(idString, 10)
-        const registro = Pet.delById(id)
+        const pet = new Pet("", 0)
+        const registro = pet.remove(id)
         resp.writeHead(200, { 'Content-Type': 'application/json' })
         resp.end(JSON.stringify(registro))
       } else {

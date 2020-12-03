@@ -1,5 +1,8 @@
+import { DAO } from "./../Persistence/DAO"
 
 export abstract class Model {
+
+  abstract dao: DAO
   private _erros: string[] = []
 
   validate(): void {
@@ -17,4 +20,30 @@ export abstract class Model {
   get erros(): string[] {
     return this._erros
   }
+
+  // Active Record
+  save(): boolean {
+    if (this.isValid) {
+      this.dao.add(this)
+      return true
+    } else {
+      return false
+    }
+  }
+
+  update(id: number): boolean {
+    if (this.isValid) {
+      this.dao.update(this, id)
+      return true
+    } else {
+      return false
+    }
+  }
+
+  // Active Record
+
+  remove(id: number) {
+    return this.dao.remove(id)
+  }
+
 }

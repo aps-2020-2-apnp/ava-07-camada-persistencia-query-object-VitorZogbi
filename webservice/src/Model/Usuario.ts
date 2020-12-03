@@ -5,6 +5,7 @@ const dao = new UsuarioDAO()
 
 export class Usuario extends Model {
 
+  dao = dao
   id?: number
   nome: string
   sobrenome?: string
@@ -25,17 +26,6 @@ export class Usuario extends Model {
     }
   }
 
-  // Active Record
-  save(): boolean {
-    if (this.isValid) {
-      dao.add(this)
-      return true
-    } else {
-      return false
-    }
-  }
-
-  // Active Record
   static all(): Usuario[] {
     return dao.findAll()
   }

@@ -6,6 +6,7 @@ const dao = new PetDAO()
 
 export class Pet extends Model {
 
+  dao = dao
   id?: number
   nome: string
   responsavel: number
@@ -29,30 +30,5 @@ export class Pet extends Model {
 
   static findById(id: number): Pet {
     return dao.findById(id)
-  }
-
-  // Active Record
-  save(): boolean {
-    if (this.isValid) {
-      dao.add(this)
-      return true
-    } else {
-      return false
-    }
-  }
-
-  update(id: number): boolean {
-    if (this.isValid) {
-      dao.update(this, id)
-      return true
-    } else {
-      return false
-    }
-  }
-
-  // Active Record
-
-  static delById(id: number) {
-    return dao.delById(id)
   }
 }

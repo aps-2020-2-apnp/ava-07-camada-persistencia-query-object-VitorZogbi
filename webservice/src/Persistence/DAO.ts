@@ -28,7 +28,7 @@ export class DAO {
       `) VALUES (` +
       campos.map(campo => `@${campo}`).join(', ') +
       ')'
-    console.log(SQL)
+
     this._db.prepare(SQL).run(obj)
   }
 
@@ -36,16 +36,12 @@ export class DAO {
     const campos = Object.keys(obj)
     const valores = Object.values(obj)
 
-    console.log(campos);
-    console.log(valores);
+    const SQL = `UPDATE ${this._table} SET ` + campos.join('= ?, ') + `=? WHERE id = ${id}`
 
-    const SQL = `UPDATE ${this._table} SET ${campos[0]} = ?,
-                 ${campos[1]} = ? WHERE id = ?`
-    console.log(SQL)
-    this._db.prepare(SQL).run(valores[0], valores[1], id)
+    this._db.prepare(SQL).run(...valores)
   }
 
-  delById(id: number): any {
+  remove(id: number): any {
     const SQL = `DELETE FROM ${this._table} WHERE ${this._table}.id = ${id}`
     return this._db.prepare(SQL).run()
   }
