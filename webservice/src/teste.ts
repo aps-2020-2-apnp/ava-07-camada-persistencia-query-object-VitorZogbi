@@ -2,7 +2,8 @@ import { DAO } from './Persistence/DAO'
 import { UsuarioDAO } from './Persistence/UsuarioDAO'
 import { Usuario } from './Model/Usuario'
 import { PetDAO } from './Persistence/PetDAO'
-import { Operador } from './Persistence/QueryObject'
+import { Operador } from './Persistence/QueryObject/index'
+import { QueryObjectBuilder } from './Persistence/QueryObject/index'
 
 const dao = new DAO('usuarios')
 // const rows = dao.findAll()
@@ -11,7 +12,7 @@ const dao = new DAO('usuarios')
 
 const usuario = new Usuario('F', 'Soares')
 const daoUsuario = new UsuarioDAO()
-//console.log(daoUsuario.findAll())
+// console.log(daoUsuario.findAll())
 // if (usuario.isValid) {
 //   daoUsuario.add(usuario)
 // } else {
@@ -26,9 +27,11 @@ const petById = daoPet.findById(3)
 console.log(petById);
 
 const registros = daoPet.findAll()
-console.log(daoPet.findAll());
+console.log(registros);
 
-const registro = daoPet.queryObject("nome", Operador.like, "mia")
+const queryBuilder = new QueryObjectBuilder()
+const query = queryBuilder.campo("nome").operador(Operador.like).valor("'mia'").get()
+const registro = daoPet.queryObject(query.campo, query.operador, query.valor)
 console.log(registro);
 
 

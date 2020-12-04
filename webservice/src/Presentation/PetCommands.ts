@@ -65,19 +65,27 @@ export class UpdatePetCommand implements Command {
       if(req.url) {
         const idString = req.url.slice(req.url.indexOf("=") + 1, req.url.length)
         const id = parseInt(idString, 10)
-        let corpo = ''
-        req.on('data', (parte) => corpo += parte)
-        req.on('end', () => {
-          const {nome, responsavel} = JSON.parse(corpo)
-          const pet = new Pet(nome, responsavel)
-          if (pet.update(id)) {
-            resp.writeHead(201, { 'Content-Type': 'text/plain' })
-            resp.end('Pet Alterado')
-          } else {
-            resp.writeHead(400, { 'Content-Type': 'application/json' })
-            resp.end(JSON.stringify({ erros: pet.erros }))
-          }
-        })
+
+        if(Pet.findById(id)){
+
+          let corpo = ''
+          req.on('data', (parte) => corpo += parte)
+          req.on('end', () => {
+            const {nome, responsavel} = JSON.parse(corpo)
+            const pet = new Pet(nome, responsavel)
+            if (pet.update(id)) {
+              resp.writeHead(201, { 'Content-Type': 'text/plain' })
+              resp.end('Pet Alterado')
+            } else {
+              resp.writeHead(400, { 'Content-Type': 'application/json' })
+              resp.end({ erros: pet.erros })
+            }
+          })
+
+        } else {
+          resp.writeHead(400, { 'Content-Type': 'application/json' })
+          resp.end( JSON.stringify({ erros: "Pet não encontrado" }))
+        }
       } else {
         console.error("Não foi informado um id");
       }
@@ -115,12 +123,11 @@ export class GetByName{
     try {
       if(req.url) {
         const valorString = req.url.slice(req.url.indexOf("=") + 1, req.url.length)
-        const pet = new Pet("", 0)
         const registro = Pet.queryByName(valorString)
         resp.writeHead(200, { 'Content-Type': 'application/json' })
         resp.end(JSON.stringify(registro))
       } else {
-        console.error("Não foi informado um id");
+        console.error("Não foi informado um nome válido");
       }
     } catch (error) {
       resp.end(error)

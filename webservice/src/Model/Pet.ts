@@ -1,7 +1,7 @@
 import { Model } from "./Model";
 import { Usuario } from "./Usuario"
 import { PetDAO } from "../Persistence/PetDAO"
-import { Operador } from "../Persistence/QueryObject"
+import { Operador } from "../Persistence/QueryObject/index"
 
 const dao = new PetDAO()
 
@@ -33,7 +33,8 @@ export class Pet extends Model {
   }
 
   static queryByName(valor: string) {
-    return dao.queryObject("nome", Operador.igual, valor)
+    const nome = "nome"
+    return dao.queryObject(nome, Operador.like, valor)
   }
 
 }

@@ -1,5 +1,6 @@
 import connect, { Database } from 'better-sqlite3'
-import { QueryObjectBuilder, Operador } from "./QueryObject"
+import { QueryObjectBuilder } from "./QueryObject/index"
+import { Operador } from "./QueryObject/index"
 
 // Layer Supertype de Persistencia
 // https://martinfowler.com/eaaCatalog/layerSupertype.html
@@ -52,7 +53,6 @@ export class DAO {
     const query = queryBuilder.campo(campo).operador(operador).valor(valor).get()
 
     const SQL = query.findByQuery(this._table)
-    console.log(SQL);
 
     return this._db.prepare(SQL).get()
   }
